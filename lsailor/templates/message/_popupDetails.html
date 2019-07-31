@@ -1,0 +1,41 @@
+<div class="panel panel-primary" style="margin-top: 0; margin-bottom: 0;">
+    <div class="panel-heading" role="tab">
+        <b>{{ message['m'].messengername }}</b>
+    </div>
+    <table class='table table-condensed table-striped'>
+        <tr style='white-space: nowrap;'>
+            <td><strong>ESN</strong>:</td>
+            <td><strong>{{ message['m'].messengerid }}</strong></td>
+        </tr>
+        <tr style='white-space: nowrap;'>
+            <td><strong>Type</strong>:</td>
+            <td><strong>{{ message['m'].messagetype }}</strong></td>
+        </tr>        
+        <tr style='white-space: nowrap;'>
+            <td><strong>Coordinates</strong>:</td>
+            <td><strong>{{ message['m'].latitude }}, {{ message['m'].longitude }}</strong></td>
+        </tr>
+        <tr style='white-space: nowrap;'>
+            <td><strong>Time</strong>:</td>
+            <td><strong>{{ message['datetime'] }}</strong></td>
+        </tr>
+        <tr style='white-space: nowrap;'>
+            <td><strong>KPH</strong>:</td>
+            <td><strong>{{ message['m'].kph }}</strong></td>
+        </tr>
+        <tr style='white-space: nowrap;'>
+            <td><strong>Battery</strong>:</td>
+            <td><strong>{{ message['m'].batterystate }}</strong></td>
+        </tr>
+        <tr style='white-space: nowrap;'>
+            <td><strong>Altitude</strong>:</td>
+            <td><strong>{{ message['m'].altitude }}</strong></td>
+        </tr>
+        <tr>
+            <td><strong>Comments</strong>:</td>
+            <td>
+                <div style='max-height: 200px; overflow-y: auto;'>{{ message['m'].comments }}</div>
+            </td>
+        </tr>
+    </table>
+</div>

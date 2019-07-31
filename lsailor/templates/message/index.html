@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>The Lonely Sailor - Our goal is to send the first autonomous boat across the Atlantic Ocean</title>
+		<meta name="keywords" content="" />
+		<meta name="description" content="" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900|Quicksand:400,700|Questrial" rel="stylesheet" />
+		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
+			integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+			crossorigin=""/>
+		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='default.css') }}?v=0.1">
+		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='fonts.css') }}">
+		<script
+			src="https://code.jquery.com/jquery-3.4.1.min.js"
+			integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+			crossorigin="anonymous"></script>
+		<script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
+			integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
+			crossorigin=""></script>
+	</head>
+	<body>
+		<div id="header-wrapper" class="container">
+			<div id="header">
+				<div id="logo">
+					<h1><a href="#">The Lonely Sailor</a></h1>
+					<h6>Our goal is to send the first autonomous boat across the Atlantic Ocean.</h6>
+				</div>
+				<div id="menu">
+					<ul>
+						<li><a href="#aboutus" accesskey="2" title="">About Us</a></li>
+						<li><a href="#sponsors" accesskey="3" title="">Sponsors</a></li>
+						<li><a href="#contactus" accesskey="4" title="">Contact Us</a></li>
+						<li><a href="#donate" accesskey="5" title="">Donate</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div id="lsmap" class="container"></div>
+		<div id="aboutus" class="container">
+			<div class="title">
+				<h2>About Us</h2>
+			</div>
+			<div class="content">
+				<img src="{{ url_for('static', filename='images/team.jpg') }}" alt="" />
+				<div>
+					<p>Members of the UVicTech Club from left to right: Matthew Ebert, Jamieson Fregeau, Michael Davidoff, Evan Dungate and Jarno Gapraegs.</p>
+				</div>
+			</div>
+			<div class="sidebar">
+				<p>
+					The University of Victoria Technology Club was founded in January 2019 by Jamieson Fregeau (second from left) so that students could work on innovative projects with a group of like-minded individuals. As Jamieson was on a co-op placement at Open Ocean Robotics, a Canadian autonomous boat company, we decided it was the perfect time to attempt to send the first autonomous boat across the Atlantic Ocean. After five months of hard work and late nights, ‘The Lonely Sailor’ will be launched late July from St. John’s Newfoundland and start making its way towards Ireland. We’d like to thank our sponsors for all the support, it wouldn’t be possible without you.
+				</p>
+			</div>
+			<div class="content">
+				<div class="title">
+					<h3>About The Lonely Sailor</h3>
+				</div>
+				<p>The Lonely Sailor is a solar-electric autonomous boat. Using Open Ocean Robotics hull technology, The Lonely Sailor has been built to withstand anything the ocean can throw at her. She has an electric motor and a servo powered rudder for propulsion and is navigated by an STM32F4 board. In this picture, you can see the two Spot Trace’s at the back of the boat. These are our two isolated GPS trackers that send The Lonely Sailor’s GPS coordinates to our site every hour. You can also see our tribute to Canada and the names of all our GoFundMe sponsors inscribed in the boat.</p>
+			</div>
+			<div class="sidebar">				
+				<img src="{{ url_for('static', filename='images/sailor.jpg') }}" alt="" />
+			</div>
+		</div>
+		<div class="wrapper container" id="sponsors">
+			<div>
+				<div class="title">
+					<h2>Sponsors</h2>
+				</div>
+			</div>			
+			<div class="three-column">
+				<div class="tbox">
+					<div class="title logo openocean"></div>
+					<p>Open Ocean Robotics is the autonomous boat company that the UVicTech Club founder, Jamieson Fregeau, has a co-op placement at. It was Open Ocean Robotics’ that inspired the Technology Club to attempt the Microtransat challenge in the first place! We wouldn’t have been able to complete our build without Julie & Colin Angus at Open Ocean Robotics and are therefore incredibly thankful for their help and unwavering support.</p>
+				</div>
+				<div class="tbox">
+					<div class="title logo aot"></div>
+					<p>AOT Technologies is an incredibly important sponsor of the UVicTech Club. Not only have they provided a monetary sponsorship for electronic components of The Lonely Sailor, but they have offered their knowledge and technical support to the club in building this website and integrating the boat’s GPS trackers into it. The technology club is very grateful for the support of AOT Technologies and the genuine people there who support innovation in their community.</p>
+				</div>
+				<div class="tbox">
+					<div class="title logo uvic"></div>
+					<p>The University of Victoria is where the Technology Club began. The Club is very thankful for the support of the University and all the kind-hearted staff that have helped us along the way. This entire project wouldn’t be possible without UVic’s support in their student’s and their interest in future generations.</p>
+				</div>
+				<div class="tbox">
+					<div class="title logo uvice"></div>
+					<p>The University of Victoria’s Engineering Students Society is an important sponsor of the UVic Technology Club. The ESS endorses students that want to make a difference in the school and believes that if we work hard, we can achieve anything.</p>
+				</div>
+				<div class="tbox">
+					<div class="title logo ieee"></div>
+					<p>IEEE Canada sponsors the UVic Technology Club and promotes students, clubs and organizations that strive to make a difference in their communities and work hard to achieve their goals.</p>
+				</div>
+				<div class="tbox">
+					<div class="title logo westwind"></div>
+					<p>Westwind Hardwood in Victoria, B.C. supplied the Technology club with the Okoume would they originally used in the frame of the boat. The Club is very grateful for this sponsorship and is looking forward to seeing how far those pieces of plywood can make it!</p>
+				</div>
+			</div>
+		</div>
+		<div id="wrapper2" class="container">
+			<div class="title">
+				<h2 id="contactus">Contact Us</h2>
+			</div>
+			<div style="margin: 1em;">
+				<p>
+					For more information about The Lonely Sailor and our journey to the east coast follow us on Instagram <strong>@the_ocean_adventure</strong>. 
+				</p>
+				<p>
+					If you wan to reach out to Jamieson for more information about The Lonely Sailor or are just interested, send me an email at <strong>jamiesonjfregeau@gmail.com</strong>. I’d love to hear from you!							
+				</p>
+			</div>
+		</div>
+		<div class="wrapper container" id="donate">
+			<div class="title">
+				<h2>Donate</h2>
+			</div>
+			<div style="margin: 1em;">
+				<p>Below is a link to the Technology Club’s GoFundMe page. While we’ve paid for all the components of the boat, we still need to get ourselves and The Lonely Sailor out to the East Coast to launch. Any donations are greatly appreciated. Together we can send the first autonomous boat across the Atlantic Ocean!</p>
+				<a href="https://www.gofundme.com/f/bwzu8-the-final-push" target="_blank">https://www.gofundme.com/f/bwzu8-the-final-push</a>
+			</div>
+		</div>
+		<div id="copyright" class="container">
+			<p style="text-align: center">&copy; 2019 AOT Technologies. All rights reserved.</p>
+		</div>
+	</body>
+	
+{% macro statusColor(name) -%}
+{{ 'help' if name == 'STOP' or name == 'HELP' or name == 'POWER-OFF' else 'ok' }}
+{%- endmacro %}
+
+	<script>
+		var popupInMap;
+		var map;
+		(function() {
+			
+			var markerGroup1;
+			var markerGroup2;
+			var bounds1 = [];
+			var bounds2 = [];
+			var linePoints1 = [];
+			var linePoints2 = [];
+			
+			map = L.map('lsmap').setView([51.505, -123.09], 13);
+			L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+				'attribution': 'Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
+			}).addTo(map);
+
+			markerGroup1 = L.layerGroup().addTo(map);
+			markerGroup2 = L.layerGroup().addTo(map);
+			popupInMap = L.popup({offset: new L.Point(0, -15)});
+
+			{% for message in device1 %}
+				var d1_icon{{loop.index}};				
+				d1_icon{{loop.index}} = L.divIcon({ html: '<div class="sw-marker-dot sw-marker-dot-1 sw-color-{{statusColor(message.messagetype)}}" title="{{loop.index}}"></div>' });				
+				{% if loop.last %}
+					d1_icon{{loop.index}} = L.divIcon({ html: '<div class="sw-marker-dot sw-marker-dot-1 sw-color-{{statusColor(message.messagetype)}} sw-last sw-last-{{statusColor(message.messagetype)}}" title="{{loop.index}}"></div>' });				
+					L.circleMarker([{{message.latitude}}, {{message.longitude}}], { color: '#3388ff', fillOpacity: 0.5, radius: 10 }).addTo(markerGroup1);
+				{% endif %}
+				var d1_marker{{loop.index}} = L.marker([{{message.latitude}}, {{message.longitude}}], {icon: d1_icon{{loop.index}}}).addTo(markerGroup1);
+				var d1_properties{{loop.index}} = {};
+				d1_properties{{loop.index}}.id = {{message.id}};
+				{% if message.hascomments == 1 %}
+					var d1_commentIcon{{loop.index}} = L.icon({ iconUrl: '/img/comment-icon.png', iconSize: [24,24], iconAnchor: [12,24] });
+					var d1_commentMarker{{loop.index}} = L.marker([{{message.latitude}}, {{message.longitude}}], {icon: d1_commentIcon{{loop.index}}}).addTo(markerGroup1);
+					d1_commentMarker{{loop.index}}.properties = d1_properties{{loop.index}}; 
+					d1_commentMarker{{loop.index}}.on('click', popupContent);
+				{% endif %}
+				d1_marker{{loop.index}}.properties = d1_properties{{loop.index}}; 
+				d1_marker{{loop.index}}.on('click', popupContent);
+				bounds1.push(d1_marker{{loop.index}}.getLatLng());
+				linePoints1.push(d1_marker{{loop.index}}.getLatLng());
+			{% endfor %}
+			
+			{% for message in device2 %}
+				var d2_icon{{loop.index}};
+				d2_icon{{loop.index}} = L.divIcon({ html: '<div class="sw-marker-dot sw-marker-dot-2 sw-color-{{statusColor(message.messagetype)}}" title="{{loop.index}}"></div>' });				
+				{% if loop.last %}					
+					d2_icon{{loop.index}} = L.divIcon({ html: '<div class="sw-marker-dot sw-marker-dot-2 sw-color-{{statusColor(message.messagetype)}} sw-last sw-last-{{statusColor(message.messagetype)}}" title="{{loop.index}}"></div>' });				
+					L.circleMarker([{{message.latitude}}, {{message.longitude}}], { color: '#3388ff', fillOpacity: 0.5, radius: 10 }).addTo(markerGroup2);
+				{% endif %}
+				var d2_marker{{loop.index}} = L.marker([{{message.latitude}}, {{message.longitude}}], {icon: d2_icon{{loop.index}}}).addTo(markerGroup2);				
+				var d2_properties{{loop.index}} = {};
+				d2_properties{{loop.index}}.id = {{message.id}};
+				{% if message.hascomments == 1 %}
+					var d2_commentIcon{{loop.index}} = L.icon({ iconUrl: '/static/images/comment-icon.png', iconSize: [24,24], iconAnchor: [12,24] });
+					var d2_commentMarker{{loop.index}} = L.marker([{{message.latitude}}, {{message.longitude}}], {icon: d2_commentIcon{{loop.index}}}).addTo(markerGroup2);
+					d2_commentMarker{{loop.index}}.properties = d2_properties{{loop.index}}; 
+					d2_commentMarker{{loop.index}}.on('click', popupContent);
+				{% endif %}
+				d2_marker{{loop.index}}.properties = d2_properties{{loop.index}};
+				d2_marker{{loop.index}}.on('click', popupContent);
+				bounds2.push(d2_marker{{loop.index}}.getLatLng());
+				linePoints2.push(d2_marker{{loop.index}}.getLatLng());
+			{% endfor %}
+			
+			var polyline1 = L.polyline(linePoints1).addTo(markerGroup1);
+			var polyline2 = L.polyline(linePoints2).addTo(markerGroup2);
+			polyline1.setStyle({ color: '#ffa54e' });
+			polyline2.setStyle({ color: '#99bbe8' });
+
+			if (bounds1.length > 0 && bounds1.length >= bounds2.length) {
+				map.setView(bounds1[bounds1.length -1], 10);
+			}
+			else if (bounds2.length > 0) {
+				map.setView(bounds2[bounds2.length -1], 10);
+			}
+		})();
+
+		function popupContent(e) {
+			popupInMap
+            .setLatLng(e.latlng)
+            .setContent("<div class=\"panel panel-default\"><div class=\"panel-body\"><strong>Acquiring Message Details...</strong></div></div>")
+            .openOn(map);
+
+			jQuery.ajax({
+				type: "GET",
+				url: '/' + e.target.properties.id + '/location',
+				timeout: 15000,
+				error: function (a, b, ex) {
+					popupInMap.setContent(ex);
+				},
+				success: function (ajx) {
+					popupInMap.setContent(ajx);
+				} // success
+			});
+
+		}
+	</script>
+</html>

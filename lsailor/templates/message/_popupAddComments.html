@@ -1,0 +1,16 @@
+<div class="panel panel-primary" style="margin-top: 0; margin-bottom: 0;" id="addComments">
+    <div class="panel-heading" role="tab">
+        <b>Add Comments</b>
+    </div>
+    <table class='table table-condensed table-striped'>
+        <tr style='white-space: nowrap;'>
+            <td>
+                <input type="hidden" name="id" value="{{message.id}}" />
+                <textarea name="comments" style="width: 270px; height: 125px;">{{ message.comments if message.comments != None else '' }}</textarea>
+            </td>
+        </tr>
+        <tr style="text-align: right;">
+            <td><input type="button" value="Save" onclick="saveComments()" /></td>
+        </tr>
+    </table>
+</div>

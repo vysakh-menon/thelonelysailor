@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>The Lonely Sailor</title>
+		<meta name="keywords" content="" />
+		<meta name="description" content="" />
+		<link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900|Quicksand:400,700|Questrial" rel="stylesheet" />
+		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
+			integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+			crossorigin=""/>
+		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='default.css') }}">
+		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='fonts.css') }}">
+		<script
+			src="https://code.jquery.com/jquery-3.4.1.min.js"
+			integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+			crossorigin="anonymous"></script>
+		<script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
+			integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
+			crossorigin=""></script>
+	</head>
+	<body>
+		<div id="header-wrapper" class="container">
+			<div id="header">
+				<div id="logo">
+					<h1><a href="#">The Lonely Sailor - Admin</a></h1>
+				</div>
+			</div>
+		</div>
+		<div id="lsmap" class="container"></div>
+	</body>
+	
+{% macro statusColor(name) -%}
+{{ 'help' if name == 'STOP' or name == 'HELP' or name == 'POWER-OFF' else 'ok' }}
+{%- endmacro %}
+
+	<script>
+		var popupInMap;
+		var map;
+		(function() {
+			
+			var markerGroup1;
+			var markerGroup2;
+			var bounds1 = [];
+			var bounds2 = [];
+			var linePoints1 = [];
+			var linePoints2 = [];
+			
+			map = L.map('lsmap').setView([51.505, -123.09], 13);
+			L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+				'attribution': 'Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
+			}).addTo(map);
+
+			markerGroup1 = L.layerGroup().addTo(map);
+			markerGroup2 = L.layerGroup().addTo(map);
+			popupInMap = L.popup({offset: new L.Point(0, -15)});
+
+			{% for message in device1 %}
+				var d1_icon{{loop.index}};				
+				d1_icon{{loop.index}} = L.divIcon({ html: '<div class="sw-marker-dot sw-marker-dot-1 sw-color-{{statusColor(message.messagetype)}}" title="{{loop.index}}"></div>' });				
+				{% if loop.last %}
+					d1_icon{{loop.index}} = L.divIcon({ html: '<div class="sw-marker-dot sw-marker-dot-1 sw-color-{{statusColor(message.messagetype)}} sw-last sw-last-{{statusColor(message.messagetype)}}" title="{{loop.index}}"></div>' });				
+					L.circleMarker([{{message.latitude}}, {{message.longitude}}], { color: '#3388ff', fillOpacity: 0.5, radius: 10 }).addTo(markerGroup1);
+				{% endif %}
+				var d1_marker{{loop.index}} = L.marker([{{message.latitude}}, {{message.longitude}}], {icon: d1_icon{{loop.index}}}).addTo(markerGroup1);
+				var d1_properties{{loop.index}} = {};
+				d1_properties{{loop.index}}.id = {{message.id}};
+				{% if message.hascomments == 1 %}
+					var d1_commentIcon{{loop.index}} = L.icon({ iconUrl: '/static/images/comment-icon.png', iconSize: [24,24], iconAnchor: [12,24] });
+					var d1_commentMarker{{loop.index}} = L.marker([{{message.latitude}}, {{message.longitude}}], {icon: d1_commentIcon{{loop.index}}}).addTo(markerGroup1);
+					d1_commentMarker{{loop.index}}.properties = d1_properties{{loop.index}}; 
+					d1_commentMarker{{loop.index}}.on('click', popupContent);
+				{% endif %}
+				d1_marker{{loop.index}}.properties = d1_properties{{loop.index}}; 
+				d1_marker{{loop.index}}.on('click', popupContent);
+				bounds1.push(d1_marker{{loop.index}}.getLatLng());
+				linePoints1.push(d1_marker{{loop.index}}.getLatLng());
+			{% endfor %}
+			
+			{% for message in device2 %}
+				var d2_icon{{loop.index}};
+				d2_icon{{loop.index}} = L.divIcon({ html: '<div class="sw-marker-dot sw-marker-dot-2 sw-color-{{statusColor(message.messagetype)}}" title="{{loop.index}}"></div>' });				
+				{% if loop.last %}					
+					d2_icon{{loop.index}} = L.divIcon({ html: '<div class="sw-marker-dot sw-marker-dot-2 sw-color-{{statusColor(message.messagetype)}} sw-last sw-last-{{statusColor(message.messagetype)}}" title="{{loop.index}}"></div>' });				
+					L.circleMarker([{{message.latitude}}, {{message.longitude}}], { color: '#3388ff', fillOpacity: 0.5, radius: 10 }).addTo(markerGroup2);
+				{% endif %}
+				var d2_marker{{loop.index}} = L.marker([{{message.latitude}}, {{message.longitude}}], {icon: d2_icon{{loop.index}}}).addTo(markerGroup2);				
+				var d2_properties{{loop.index}} = {};
+				d2_properties{{loop.index}}.id = {{message.id}};
+				{% if message.hascomments == 1 %}
+					var d2_commentIcon{{loop.index}} = L.icon({ iconUrl: '/static/images/comment-icon.png', iconSize: [24,24], iconAnchor: [12,24] });
+					var d2_commentMarker{{loop.index}} = L.marker([{{message.latitude}}, {{message.longitude}}], {icon: d2_commentIcon{{loop.index}}}).addTo(markerGroup2);
+					d2_commentMarker{{loop.index}}.properties = d2_properties{{loop.index}}; 
+					d2_commentMarker{{loop.index}}.on('click', popupContent);
+				{% endif %}
+				d2_marker{{loop.index}}.properties = d2_properties{{loop.index}};
+				d2_marker{{loop.index}}.on('click', popupContent);
+				bounds2.push(d2_marker{{loop.index}}.getLatLng());
+				linePoints2.push(d2_marker{{loop.index}}.getLatLng());
+			{% endfor %}
+			
+			var polyline1 = L.polyline(linePoints1).addTo(markerGroup1);
+			var polyline2 = L.polyline(linePoints2).addTo(markerGroup2);
+			polyline1.setStyle({ color: '#ffa54e' });
+			polyline2.setStyle({ color: '#99bbe8' });
+
+			if (bounds1.length > 0 && bounds1.length >= bounds2.length) {
+				map.setView(bounds1[bounds1.length -1], 10);
+			}
+			else if (bounds2.length > 0) {
+				map.setView(bounds2[bounds2.length -1], 10);
+			}
+		})();
+
+		function popupContent(e) {
+			popupInMap
+            .setLatLng(e.latlng)
+            .setContent("<div class=\"panel panel-default\"><div class=\"panel-body\"><strong>Acquiring Message Details...</strong></div></div>")
+            .openOn(map);
+
+			jQuery.ajax({
+				type: "GET",
+				url: '/' + e.target.properties.id + '/comments',
+				timeout: 15000,
+				error: function (a, b, ex) {
+					popupInMap.setContent(ex);
+				},
+				success: function (ajx) {
+					popupInMap.setContent(ajx);
+				} // success
+			});
+		}
+
+		function saveComments() {
+			var messageId = $('#addComments').find('[name=id]').first().val();
+			var comment = $('#addComments').find('[name=comments]').first().val();
+
+			$.ajax({
+				type: "POST",
+				data: { comments: comment },
+				url: '/' + messageId + '/save-comments',
+				timeout: 15000,
+				error: function (a, b, ex) {
+					popupInMap.setContent(ex);
+				},
+				success: function (ajx) {
+					map.closePopup();
+				} // success
+			});
+		}
+	</script>
+</html>
