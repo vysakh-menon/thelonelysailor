@@ -1,0 +1,20 @@
+apiVersion: lsailor/v1
+kind: Deployment
+metadata:
+  name: lsailor-deployment
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: lsailor
+    spec:
+      containers:
+      - name: lsailor
+        image: gcr.io/lsailor/lsailor:latest
+        env:
+          - name: DATABASE_URL
+            valueFrom:
+              secretKeyRef:
+                name: lsailor
+                key: DATABASE_URL
